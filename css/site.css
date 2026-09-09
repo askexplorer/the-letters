@@ -1,0 +1,293 @@
+/* ==========================================================================
+   Lessons from Life: Part II — The Letters
+   Explorer Publishing · single-page site stylesheet
+   Replaces the Canvas theme bundle (bootstrap/style/dark/font-icons/
+   animate/responsive/swiper + jquery/plugins/functions ≈ 1.4 MB).
+   ========================================================================== */
+
+/* ---------- Design tokens (from the Part 2 EDM) ---------- */
+:root {
+  --navy:        #1E3E69;
+  --navy-deep:   #16304F;
+  --navy-soft:   #344A72;
+  --gold:        #A08F69;
+  --gold-light:  #A89875;
+  --yellow:      #FFF205;
+  --paper:       #FFFFFF;
+  --grey:        #EDEDED;
+  --rule:        rgba(160,143,105,.45);
+
+  --serif:  Georgia, "Droid Serif", "Times New Roman", Times, serif;
+  --arabic: "Cairo", "Sakkal Majalla", "Traditional Arabic", Tahoma, Arial, sans-serif;
+
+  --shell:  1180px;
+  --gutter: clamp(20px, 5vw, 52px);
+  --flow:   clamp(64px, 9vw, 120px);
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--navy);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img, svg { display: block; max-width: 100%; height: auto; border: 0; }
+a { color: var(--gold); }
+p { margin: 0 0 1.15em; }
+h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* ---------- Helpers ---------- */
+.shell { width: 100%; max-width: var(--shell); margin-inline: auto; padding-inline: var(--gutter); }
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+.skip-link {
+  position: absolute; left: 12px; top: -60px; z-index: 200;
+  background: var(--navy); color: #fff; padding: 12px 20px;
+  border-radius: 6px; text-decoration: none; font-size: 15px;
+  transition: top .18s ease;
+}
+.skip-link:focus { top: 12px; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* Arabic type */
+[lang="ar"] { font-family: var(--arabic); line-height: 1.95; }
+
+/* ---------- Site logo ---------- */
+.site-logo { position: absolute; top: clamp(20px, 3vw, 40px); left: clamp(20px, 3vw, 40px); z-index: 20; }
+.site-logo img { width: clamp(120px, 14vw, 180px); }
+
+/* ---------- Shared section scaffolding ---------- */
+.band { position: relative; background: var(--navy) center center / cover no-repeat; }
+.band--figure {
+  min-height: clamp(420px, 78vh, 820px);
+  display: grid; place-items: center;
+}
+.band--dark { color: #fff; }
+.band--dark h2 { color: #fff; }
+
+.section { padding-block: var(--flow); }
+
+.eyebrow {
+  font-size: 13px; font-weight: 700; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--gold); margin: 0 0 14px;
+}
+.section-title { font-size: clamp(28px, 4vw, 44px); letter-spacing: .01em; }
+.rule { border: 0; border-top: 2px dotted var(--gold); margin-block: clamp(36px, 6vw, 56px); }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid; place-items: center;
+  padding: 120px 0 96px;
+  background: var(--navy-deep) center center / cover no-repeat;
+  color: #fff; text-align: center;
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(22,48,79,.30) 0%, rgba(22,48,79,.62) 100%);
+}
+.hero > * { position: relative; z-index: 1; }
+.hero__script {
+  display: block; font-style: italic; font-weight: 400;
+  font-size: clamp(30px, 5.4vw, 60px); line-height: 1; color: #fff;
+}
+.hero__main {
+  display: block; font-size: clamp(42px, 9vw, 104px);
+  letter-spacing: .06em; line-height: 1.02; margin-top: .06em;
+}
+.hero__ar {
+  display: block; font-family: var(--arabic); font-weight: 700;
+  font-size: clamp(34px, 7vw, 76px); line-height: 1.5; margin-top: .1em;
+}
+.hero__series {
+  margin: 26px auto 0; max-width: 40ch;
+  font-size: clamp(13px, 1.5vw, 16px); letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gold-light);
+}
+.hero__author { display: block; margin-top: 8px; letter-spacing: .1em; color: rgba(255,255,255,.8); }
+
+.badge {
+  display: inline-block; margin-top: 30px; padding: 9px 20px;
+  border: 1px solid var(--gold); border-radius: 999px;
+  font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--gold-light);
+}
+
+.scroll-cue {
+  position: absolute; bottom: 34px; left: 50%; translate: -50% 0; z-index: 2;
+  width: 44px; height: 44px; display: grid; place-items: center;
+  color: #fff; text-decoration: none; opacity: .85;
+  animation: cue 2.4s ease-in-out infinite;
+}
+.scroll-cue:hover { opacity: 1; }
+@keyframes cue { 0%,100% { transform: translateY(0); } 50% { transform: translateY(9px); } }
+
+/* ---------- Bilingual two-column body ---------- */
+.bilingual {
+  display: grid; gap: clamp(38px, 6vw, 76px);
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+@media (min-width: 900px) { .bilingual { grid-template-columns: 1fr 1fr; } }
+
+.col-en { text-align: left; }
+.col-ar { text-align: right; direction: rtl; }
+.col-en p, .col-ar p { font-size: clamp(15px, 1.15vw, 17px); }
+.col-ar p { font-size: clamp(16px, 1.25vw, 19px); }
+
+/* ---------- Key points ---------- */
+.points { list-style: none; margin: 0; padding: 0; }
+.points li { position: relative; padding-left: 26px; margin-bottom: 14px; }
+.points li::before {
+  content: ""; position: absolute; left: 4px; top: .62em;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--gold);
+}
+.col-ar .points li { padding-left: 0; padding-right: 26px; }
+.col-ar .points li::before { left: auto; right: 4px; }
+
+/* ---------- Quote band ---------- */
+.quote-band { color: #fff; text-align: center; background: var(--navy); }
+.quote-band .shell { max-width: 900px; }
+.quote-mark { font-size: 54px; line-height: 1; color: var(--gold); margin-bottom: 10px; }
+.quote-ar {
+  font-family: var(--arabic); font-size: clamp(21px, 3vw, 34px);
+  line-height: 1.85; direction: rtl; margin: 0 0 6px; font-weight: 700;
+}
+.quote-en { font-size: clamp(17px, 2vw, 25px); line-height: 1.6; font-style: italic; margin: 22px 0 6px; }
+.quote-cite {
+  display: block; margin-top: 20px; font-size: 13px; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gold-light); font-style: normal;
+}
+
+/* ---------- Specs + bulk ---------- */
+.detail-grid {
+  display: grid; gap: clamp(34px, 5vw, 64px);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 820px) { .detail-grid { grid-template-columns: 1.15fr .85fr; } }
+
+.specs { margin: 0; }
+.specs div { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(30,62,105,.10); }
+.specs div:last-child { border-bottom: 0; }
+.specs dt { font-weight: 700; color: var(--gold-light); min-width: 132px; margin: 0; }
+.specs dd { margin: 0; color: var(--navy-soft); }
+
+.bulk { text-align: left; }
+@media (min-width: 820px) { .bulk { text-align: right; } }
+.bulk h2 { font-size: clamp(24px, 3vw, 32px); margin-bottom: 6px; }
+.bulk p { color: var(--gold); font-weight: 700; margin-bottom: 10px; }
+.bulk .bulk__contact { color: var(--navy-soft); font-weight: 400; }
+.bulk a { color: var(--navy); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- CTA band ---------- */
+.cta-band { text-align: center; color: #fff; background: var(--navy); }
+.cta-band .availability {
+  font-size: clamp(19px, 2.6vw, 30px); margin-bottom: 6px;
+}
+.cta-band .availability strong { color: #fff; }
+.cta-band .availability span { color: var(--gold-light); }
+.cta-band .ships { color: rgba(255,255,255,.72); font-size: 15px; margin-bottom: 30px; }
+
+.button {
+  display: inline-block; min-width: 210px; padding: 16px 38px;
+  background: var(--gold); color: #fff; border-radius: 7px;
+  font-family: var(--serif); font-size: 19px; font-weight: 700;
+  letter-spacing: .04em; text-decoration: none; text-align: center;
+  transition: background-color .18s ease, transform .18s ease;
+}
+.button:hover, .button:focus { background: #b39c72; transform: translateY(-2px); color: #fff; }
+.button--ghost { background: transparent; border: 1px solid var(--gold); color: var(--gold-light); }
+.button--ghost:hover, .button--ghost:focus { background: var(--gold); color: #fff; }
+
+/* ---------- Footer ---------- */
+.site-footer { background: var(--gold); color: #fff; padding-block: 42px; font-size: 15px; }
+.site-footer a { color: #fff; }
+.footer-grid {
+  display: grid; gap: 26px; align-items: center;
+  grid-template-columns: 1fr; text-align: center;
+}
+@media (min-width: 820px) {
+  .footer-grid { grid-template-columns: auto 1fr auto; text-align: left; }
+  .footer-contact { text-align: right; }
+}
+.footer-logo img { width: 120px; margin-inline: auto; }
+.footer-links { margin-top: 6px; }
+.footer-links a { text-decoration: underline; text-underline-offset: 3px; }
+.footer-contact a { text-decoration: none; font-weight: 700; }
+.social { display: flex; gap: 10px; justify-content: center; margin-bottom: 12px; }
+@media (min-width: 820px) { .social { justify-content: flex-end; } }
+.social a {
+  width: 34px; height: 34px; display: grid; place-items: center;
+  border-radius: 50%; background: rgba(255,255,255,.16);
+  color: #fff; transition: background-color .18s ease;
+}
+.social a:hover, .social a:focus { background: rgba(255,255,255,.34); }
+.social svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* ---------- Back to top ---------- */
+.to-top {
+  position: fixed; right: 22px; bottom: 22px; z-index: 60;
+  width: 44px; height: 44px; display: grid; place-items: center;
+  background: var(--navy); color: #fff; border: 0; border-radius: 6px;
+  cursor: pointer; opacity: 0; visibility: hidden;
+  transition: opacity .22s ease, visibility .22s ease;
+}
+.to-top.is-visible { opacity: .92; visibility: visible; }
+.to-top:hover { opacity: 1; }
+.to-top svg { width: 17px; height: 17px; fill: currentColor; }
+
+/* ==========================================================================
+   IMAGE SLOTS
+   Drop the new artwork at these exact paths and it activates automatically.
+   Each slot layers the photo OVER a designed gradient, so a missing or
+   still-loading file degrades to an intentional-looking band, never a
+   broken box. See images/part2/README.md for the required sizes.
+
+   NOTE: these deliberately reference .jpg only. `image-set()` picks the
+   WebP candidate on support, NOT on availability — so a WebP that 404s
+   leaves the slot blank instead of falling back to the JPEG. The switch to
+   image-set(webp, jpg) happens in the optimisation pass, once both formats
+   actually exist on disk. Verified in Chrome 2026-09-09.
+   ========================================================================== */
+
+:root {
+  --grad-hero:    radial-gradient(120% 90% at 50% 0%, #2A5286 0%, #1E3E69 45%, #12283F 100%);
+  --grad-cover:   linear-gradient(160deg, #24477A 0%, #1E3E69 55%, #16304F 100%);
+  --grad-feature: linear-gradient(100deg, #16304F 0%, #1E3E69 50%, #A08F69 100%);
+}
+
+.hero         { background-image: url("../images/part2/hero.jpg"),    var(--grad-hero); }
+.cover-band   { background-image: url("../images/part2/cover.jpg"),   var(--grad-cover); }
+.feature-band { background-image: url("../images/part2/feature.jpg"), var(--grad-feature); }
+
+@media (max-width: 899.98px) {
+  .hero         { background-image: url("../images/part2/hero-mobile.jpg"),    var(--grad-hero); }
+  .cover-band   { background-image: url("../images/part2/cover-mobile.jpg"),   var(--grad-cover); }
+  .feature-band { background-image: url("../images/part2/feature-mobile.jpg"), var(--grad-feature); }
+}
+
+/* Parallax feel on capable pointers only — avoids the iOS fixed-bg jitter
+   that the old theme suffered from. */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .cover-band, .feature-band { background-attachment: fixed; }
+}
