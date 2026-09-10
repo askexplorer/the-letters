@@ -216,15 +216,30 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
     flex: 0 0 auto;
   }
 
-  /* Anchored to the bottom edge and capped by height, which is the axis that
-     actually runs out in portrait. */
+  /* Fills the space under the title rather than sitting small at the bottom.
+     flex:1 lets it take whatever the title leaves, and the height cap rises to
+     72svh; object-position keeps it bottom-anchored as it grows. */
+  /* Bleeds past the stage's 6vw side padding: the figure was width-limited to
+     330px of a 375px screen, so `contain` letterboxed it and the extra height
+     went unused. Cancelling the padding lets it use the full width. */
   .hero__art--figure {
+    align-self: stretch;
+    margin-inline: -6vw;
     width: auto;
-    height: min(56svh, 560px);
-    margin-top: auto;
-    flex: 0 0 auto;
+    height: auto;
+    min-height: 0;
+    flex: 1 1 auto;
+    margin-top: clamp(12px, 3svh, 32px);
+    display: grid;
+    place-items: end center;
   }
-  .hero__art--figure img { width: auto; height: 100%; }
+  .hero__art--figure img {
+    width: auto;
+    height: 100%;
+    max-height: min(72svh, 720px);
+    object-fit: contain;
+    object-position: bottom center;
+  }
 
   /* The figure now occupies the bottom edge, where the cue used to sit. */
   .scroll-cue { display: none; }
@@ -263,25 +278,31 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
+  justify-items: center;
   gap: clamp(28px, 4vw, 72px);
   background: #fff;
   padding: clamp(72px, 10vw, 150px) var(--gutter);
   min-height: clamp(560px, 78svh, 940px);
 }
 
-.book-split__col { display: grid; place-items: center; }
+.book-split__col { display: grid; place-items: center; width: 100%; }
+/* <picture> is inline and shrink-wraps, so centring the column centred the
+   WRAPPER, not the image inside it. That only showed on the title, because the
+   books image happens to fill its whole track. Making the wrapper a full-width
+   block and centring the image within it fixes both. */
+.book-split__col picture { display: block; width: 100%; }
 /* Drift is applied inline by the parallax handler; will-change keeps it on its
    own layer so the two columns do not repaint the white ground each frame. */
 .book-split__col[data-drift] { will-change: transform; }
-.book-split__col img { width: 100%; height: auto; }
+.book-split__col img { width: 100%; height: auto; margin-inline: auto; }
 
 /* Fluid, so the pair fills a wide viewport instead of floating small in it.
-   Ceilings are the assets' native pixel widths - books 783, title 515 - past
+   Ceilings are the assets' native pixel widths - books 783, title 578 - past
    which they would simply be upscaled. The source plate is 2000x1306, so that
    is the hard limit; a larger export is needed to go bigger crisply, and on a
    2x screen these are already being resampled. */
 .book-split__col--books img { max-width: min(100%, clamp(420px, 46vw, 780px)); }
-.book-split__col--title img { max-width: min(100%, clamp(300px, 31vw, 515px)); }
+.book-split__col--title img { max-width: min(100%, clamp(300px, 31vw, 578px)); }
 
 /* Books on top, title beneath. */
 @media (max-width: 899.98px) {
