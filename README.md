@@ -45,6 +45,12 @@ its artwork exists)* → specs → pre-order → bulk sales → footer.
 - **Parallax** is gated to fine pointers at ≥900px and motion-safe only; iOS
   ignores `background-attachment: fixed` and jitters.
 
+## ⚠️ Before going live
+
+**Delete `robots.txt`.** It blocks all search engines and exists only so the
+public GitHub Pages preview is not indexed while the book is on pre-order.
+Leaving it in place would make the real page invisible to Google.
+
 ## Outstanding
 
 - `images/part2/feature.jpg` — that section stays collapsed until it lands
