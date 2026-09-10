@@ -91,12 +91,12 @@
      hero reads as artwork. -->
 <header class="hero" id="top">
 
-  <!-- data-depth = how much each layer lags the scroll. Distant layers lag
-       most (sky), the foreground figure tracks it almost exactly. -->
+  <!-- Only the sky drifts. The title and figure are a single locked artwork
+       from the designer and carry no transform, so they cannot separate. -->
   <div class="hero__layers" aria-hidden="true">
-    <div class="hero__layer hero__layer--sky"    data-depth="0.26"></div>
-    <div class="hero__layer hero__layer--mid"    data-depth="0.15"></div>
-    <div class="hero__layer hero__layer--figure" data-depth="0.05"></div>
+    <div class="hero__layer hero__layer--sky" data-depth="0.18"></div>
+    <div class="hero__layer hero__layer--title"></div>
+    <div class="hero__layer hero__layer--figure"></div>
   </div>
 
   <h1 class="visually-hidden">

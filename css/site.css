@@ -93,7 +93,11 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .section-title { font-size: clamp(28px, 4vw, 44px); letter-spacing: .01em; }
 .rule { border: 0; border-top: 2px dotted var(--gold); margin-block: clamp(36px, 6vw, 56px); }
 
-/* ---------- Hero (three-layer composite, no text over the art) ---------- */
+/* ---------- Hero (three-layer composite, no text over the art) ----------
+   The three supplied layers share one 2000x1306 frame and are pre-aligned by
+   the designer, so the title and figure MUST render at identical size and
+   position or the lockup tears apart. Only the sky is allowed to drift.
+   ---------------------------------------------------------------------- */
 .hero {
   position: relative;
   min-height: 100svh;
@@ -108,41 +112,35 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
   position: absolute;
   inset: 0;
   background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* 1 — sky. Abstract, so it can crop freely and is the only layer that moves.
+   Oversized top and bottom to give the drift somewhere to go. */
+.hero__layer--sky {
+  inset: -12% 0;
+  background-image: image-set(url("../images/part2/hero-sky.webp") type("image/webp"),
+                              url("../images/part2/hero-sky.jpg")  type("image/jpeg"));
+  background-size: cover;
   will-change: transform;
 }
 
-/* 1 — sky plate. Fills the frame. */
-/* Distant layers are oversized top and bottom so their drift never exposes
-   an edge; the amount scales with how far each one lags. */
-.hero__layer--sky {
-  inset: -14% 0;
-  background-position: center center;
-  background-size: cover;
-  background-image: url("../images/part2/layer-1-sky.jpg");
+/* 2 + 3 — the locked artwork: title left, figure right. Identical sizing and
+   position, no transform, so they can never separate from each other. */
+.hero__layer--title {
+  background-image: image-set(url("../images/part2/hero-title.webp") type("image/webp"),
+                              url("../images/part2/hero-title.png")  type("image/png"));
 }
-
-/* 2 — mid wash / haze. Sits over the sky, under the figure. */
-.hero__layer--mid {
-  inset: -9% 0;
-  background-position: center center;
-  background-size: cover;
-  background-image: url("../images/part2/layer-2.png");
-}
-
-/* 3 — the figure. Anchored bottom-right, scaled to frame height so the
-   crop stays consistent as the viewport changes. */
-/* The figure is foreground: it barely lags, so it needs headroom only at the
-   top, and its bottom edge stays flush with the hero's own bottom — anchoring
-   it to an oversized layer would push the figure below the fold. */
 .hero__layer--figure {
-  inset: -4% 0 0 0;
-  background-position: right bottom;
-  background-size: auto 100%;
-  background-image: url("../images/part2/layer-3-figure.png");
+  background-image: image-set(url("../images/part2/hero-figure.webp") type("image/webp"),
+                              url("../images/part2/hero-figure.png")  type("image/png"));
 }
 
-/* Gradient floor: shows through before the art lands, and afterwards keeps
-   the bottom edge reading into the section below. */
+.hero__layer--title,
+.hero__layer--figure { background-size: cover; }
+
+/* Gradient floor: shows through before the art loads and keeps the bottom
+   edge reading into the section below. */
 .hero::before {
   content: "";
   position: absolute; inset: 0; z-index: -1;
@@ -159,13 +157,30 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .scroll-cue:hover { opacity: 1; }
 @keyframes cue { 0%,100% { transform: translateY(0); } 50% { transform: translateY(9px); } }
 
+/* Portrait screens: the artwork is a 1.53:1 landscape lockup with the title
+   hard left and the figure hard right. Cropping it to a tall viewport would
+   cut BOTH off, so the lockup is contained (whole composition always visible)
+   while the sky still covers the full frame behind it.
+   This is an interim treatment — a portrait crop of the artwork would sit far
+   better here. See images/part2/README.md. */
 @media (max-width: 899.98px) {
-  .hero__layer--sky    { background-image: url("../images/part2/layer-1-sky-mobile.jpg"); }
-  .hero__layer--mid    { background-image: url("../images/part2/layer-2-mobile.png"); }
+  .hero__layer--title,
   .hero__layer--figure {
-    background-image: url("../images/part2/layer-3-figure-mobile.png");
-    background-position: center bottom;
-    background-size: auto 78%;
+    /* The live artwork sits at x 248-1900 of the 2000px frame, so ~250px down
+       the left is empty. Scaling to 121% pushes that dead margin off-screen
+       and lets the real content span the full width, without clipping either
+       the title (starts x248) or the figure (ends x1900). Lifts the lockup
+       from 30% to ~36% of hero height. */
+    /* The artwork's margins are asymmetric (248px dead space left, 100px
+       right), so centring the FRAME does not centre the CONTENT. Sizing and
+       position are solved together to land the live content (x248-1900) in a
+       5% gutter each side at any viewport width:
+         imageW = 0.9W / (1652/2000)          -> 109%
+         (W - imageW)*P + (248/2000)*imageW = 0.05W  -> P = 95%
+       At 121%/71.3% the content sat edge-to-edge and the title touched the
+       screen border. */
+    background-size: 109% auto;
+    background-position: 95% 46%;
   }
 }
 
