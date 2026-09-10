@@ -134,7 +134,7 @@
        half can be placed independently and stack on narrow screens. -->
   <section class="book-split" aria-label="The book">
 
-    <div class="book-split__col book-split__col--books">
+    <div class="book-split__col book-split__col--books" data-drift="-26">
       <picture>
         <source srcset="images/part2/cover-books.webp" type="image/webp" />
         <img src="images/part2/cover-books.png" alt="" width="783" height="605"
@@ -142,7 +142,7 @@
       </picture>
     </div>
 
-    <div class="book-split__col book-split__col--title">
+    <div class="book-split__col book-split__col--title" data-drift="14">
       <picture>
         <source srcset="images/part2/cover-title.webp" type="image/webp" />
         <img src="images/part2/cover-title.png"
@@ -374,6 +374,32 @@
     };
     tryLoad(['.webp', '.jpg']);
   });
+
+  // Section parallax: elements drift as their section crosses the viewport.
+  // Separate from the hero handler above, which uses a scroll-anchored formula
+  // tuned to the hero's own edge coverage and is left alone.
+  var drifters = [].slice.call(document.querySelectorAll('[data-drift]'));
+  if (drifters.length && motionOK && finePointer) {
+    var dTicking = false;
+    var placeDrift = function () {
+      var vh = window.innerHeight;
+      drifters.forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.bottom < -100 || r.top > vh + 100) return;   // outside: skip
+        var amount = parseFloat(el.getAttribute('data-drift')) || 0;
+        // -1 when entering from below, 0 at centre, +1 when leaving at top
+        var progress = ((r.top + r.height / 2) - vh / 2) / (vh / 2 + r.height / 2);
+        progress = Math.max(-1, Math.min(1, progress));
+        el.style.transform = 'translate3d(0,' + (progress * amount).toFixed(2) + 'px,0)';
+      });
+      dTicking = false;
+    };
+    window.addEventListener('scroll', function () {
+      if (!dTicking) { dTicking = true; window.requestAnimationFrame(placeDrift); }
+    }, { passive: true });
+    window.addEventListener('resize', placeDrift, { passive: true });
+    placeDrift();
+  }
 
   // Pre-order conversion event (fires once GA4 is live)
   document.querySelectorAll('[data-track]').forEach(function (el) {

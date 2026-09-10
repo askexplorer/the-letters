@@ -269,6 +269,9 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 }
 
 .book-split__col { display: grid; place-items: center; }
+/* Drift is applied inline by the parallax handler; will-change keeps it on its
+   own layer so the two columns do not repaint the white ground each frame. */
+.book-split__col[data-drift] { will-change: transform; }
 .book-split__col img { width: 100%; height: auto; }
 
 /* Sized to hold the weighting of the original plate, where the books ran a
