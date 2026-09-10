@@ -128,7 +128,11 @@
 <main id="main">
 
   <!-- ============ COVER ============ -->
-  <section class="band band--figure band--dark cover-band" aria-label="The book">
+  <!-- Image bands stay collapsed until their artwork exists, so the page
+       never shows an empty coloured void. Drop the file in and it appears -
+       no code change. See images/part2/README.md. -->
+  <section class="band band--figure band--dark cover-band" aria-label="The book"
+           data-bg="images/part2/cover" hidden>
     <p class="visually-hidden">The Arabic and English hardback editions of Lessons from Life: Part II – The Letters.</p>
   </section>
 
@@ -190,7 +194,8 @@
   </section>
 
   <!-- ============ FEATURE IMAGE ============ -->
-  <section class="band band--figure feature-band" aria-hidden="true"></section>
+  <section class="band band--figure feature-band" aria-hidden="true"
+           data-bg="images/part2/feature" hidden></section>
 
   <!-- ============ SPECS + BULK ============ -->
   <section class="section" id="details">
@@ -317,6 +322,23 @@
     }, { passive: true });
     place();
   }
+
+  // Image bands: reveal only once the artwork actually loads. Tries .webp
+  // first, then .jpg, so it works whether or not the WebP pass has run.
+  document.querySelectorAll('.band--figure[data-bg]').forEach(function (el) {
+    var base = el.getAttribute('data-bg');
+    var tryLoad = function (exts) {
+      if (!exts.length) return;                 // no art yet: stay collapsed
+      var ext = exts[0], img = new Image();
+      img.onload = function () {
+        el.style.backgroundImage = 'url("' + base + ext + '")';
+        el.hidden = false;
+      };
+      img.onerror = function () { tryLoad(exts.slice(1)); };
+      img.src = base + ext;
+    };
+    tryLoad(['.webp', '.jpg']);
+  });
 
   // Pre-order conversion event (fires once GA4 is live)
   document.querySelectorAll('[data-track]').forEach(function (el) {

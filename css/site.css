@@ -20,6 +20,9 @@
   --serif:  Georgia, "Droid Serif", "Times New Roman", Times, serif;
   --arabic: "Cairo", "Sakkal Majalla", "Traditional Arabic", Tahoma, Arial, sans-serif;
 
+  /* Shown behind the hero until the sky image loads. */
+  --grad-hero: radial-gradient(120% 90% at 50% 0%, #2A5286 0%, #1E3E69 45%, #12283F 100%);
+
   --shell:  1180px;
   --gutter: clamp(20px, 5vw, 52px);
   --flow:   clamp(64px, 9vw, 120px);
@@ -39,6 +42,9 @@ body {
   overflow-x: hidden;
 }
 img, svg { display: block; max-width: 100%; height: auto; border: 0; }
+/* Must outrank the display:grid/flex set on components, or [hidden] is a
+   no-op and a collapsed section still occupies its full height. */
+[hidden] { display: none !important; }
 a { color: var(--gold); }
 p { margin: 0 0 1.15em; }
 h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
@@ -333,35 +339,22 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .to-top svg { width: 17px; height: 17px; fill: currentColor; }
 
 /* ==========================================================================
-   IMAGE SLOTS
-   Drop the new artwork at these exact paths and it activates automatically.
-   Each slot layers the photo OVER a designed gradient, so a missing or
-   still-loading file degrades to an intentional-looking band, never a
-   broken box. See images/part2/README.md for the required sizes.
-
-   NOTE: these deliberately reference .jpg only. `image-set()` picks the
-   WebP candidate on support, NOT on availability — so a WebP that 404s
-   leaves the slot blank instead of falling back to the JPEG. The switch to
-   image-set(webp, jpg) happens in the optimisation pass, once both formats
-   actually exist on disk. Verified in Chrome 2026-09-09.
+   IMAGE BANDS
+   Collapsed via the `hidden` attribute until their artwork loads, then
+   revealed by the probe in index.html, which sets background-image directly.
+   This is why they carry no static url() - a CSS background cannot report a
+   404, so a missing file would leave a full-height coloured void on the page.
    ========================================================================== */
 
-:root {
-  --grad-hero:    radial-gradient(120% 90% at 50% 0%, #2A5286 0%, #1E3E69 45%, #12283F 100%);
-  --grad-cover:   linear-gradient(160deg, #24477A 0%, #1E3E69 55%, #16304F 100%);
-  --grad-feature: linear-gradient(100deg, #16304F 0%, #1E3E69 50%, #A08F69 100%);
+.band--figure[data-bg] {
+  background-color: var(--navy);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-.cover-band   { background-image: url("../images/part2/cover.jpg"),   var(--grad-cover); }
-.feature-band { background-image: url("../images/part2/feature.jpg"), var(--grad-feature); }
-
-@media (max-width: 899.98px) {
-  .cover-band   { background-image: url("../images/part2/cover-mobile.jpg"),   var(--grad-cover); }
-  .feature-band { background-image: url("../images/part2/feature-mobile.jpg"), var(--grad-feature); }
-}
-
-/* Parallax feel on capable pointers only — avoids the iOS fixed-bg jitter
-   that the old theme suffered from. */
+/* Parallax feel on capable pointers only - avoids the iOS fixed-bg jitter
+   the old theme suffered from. */
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
   .cover-band, .feature-band { background-attachment: fixed; }
 }

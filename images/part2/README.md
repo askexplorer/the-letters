@@ -56,10 +56,9 @@ roughly 1600 × 2100) would fix it properly.** Save as:
 | `share.jpg` | 1200 × 630 | Social sharing card (OG / Twitter) |
 | `../apple-touch-icon.png` | 180 × 180 | iOS home screen |
 
-**Send these as plain `.jpg`** — do not add `.webp` yourself. I generate those
-and switch the CSS to `image-set()` at the same time. (A CSS reference to a
-WebP that does not exist leaves the slot blank rather than falling back to the
-JPEG, so the two must change together.)
+**Send these as plain `.jpg`.** The loader tries `.webp` first and falls back
+to `.jpg` on its own, so a JPEG-only delivery works immediately and picks up
+the WebP automatically once the optimisation pass has run.
 
 - `cover.jpg` and `feature.jpg` are `background-attachment: fixed` on desktop,
   so keep the subject clear of the extreme top and bottom edges.
