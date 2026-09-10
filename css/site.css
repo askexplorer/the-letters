@@ -139,10 +139,16 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 }
 
 /* --- stage: covers the hero while holding the artwork's aspect --- */
+/* Anchored to the TOP, not centred. The figure's head sits at the very top of
+   its trimmed frame, so any upward overflow clips it - which is what happened
+   on wide screens: at 2560x1080 the stage is 1672 tall against a 1080 viewport
+   and centring pushed the head ~187px above the fold. Anchoring top keeps the
+   head safe and lets the overflow fall off the bottom of the robe instead.
+   min-width guarantees the stage is always at least as tall as the viewport. */
 .hero__stage {
   position: absolute;
-  left: 50%; top: 50%;
-  translate: -50% -50%;
+  left: 50%; top: 0;
+  translate: -50% 0;
   width: 100%;
   min-width: calc(100svh * 2000 / 1306);
   aspect-ratio: 2000 / 1306;
@@ -314,20 +320,67 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 @media (min-width: 820px) { .detail-grid { grid-template-columns: 1.15fr .85fr; } }
 
 .specs { margin: 0; }
+.specs--wide { display: grid; gap: 0 clamp(24px, 5vw, 72px); grid-template-columns: 1fr; }
+@media (min-width: 700px) { .specs--wide { grid-template-columns: 1fr 1fr; } }
 .specs div { display: flex; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(30,62,105,.10); }
 .specs div:last-child { border-bottom: 0; }
 .specs dt { font-weight: 700; color: var(--gold-light); min-width: 132px; margin: 0; }
 .specs dd { margin: 0; color: var(--navy-soft); }
 
-.bulk { text-align: left; }
-@media (min-width: 820px) { .bulk { text-align: right; } }
+.bulk { text-align: center; }
 .bulk h2 { font-size: clamp(24px, 3vw, 32px); margin-bottom: 6px; }
 .bulk p { color: var(--gold); font-weight: 700; margin-bottom: 10px; }
-.bulk .bulk__contact { color: var(--navy-soft); font-weight: 400; }
-.bulk a { color: var(--navy); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.bulk .bulk__contact { color: rgba(255,255,255,.85); font-weight: 400; }
+.bulk a { color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- Bulk sales band ---------- */
+.bulk-band {
+  /* Tall enough for the artwork to read. With background-attachment:fixed the
+     image is sized to the VIEWPORT, not the element, so a short band shows
+     only a thin slice - fine for the pre-order pattern, which is a texture,
+     but the stacked books are a single centred subject and were reduced to a
+     fragment at the old 360px height. */
+  position: relative;
+  min-height: clamp(420px, 62svh, 640px);
+  display: grid;
+  place-items: start center;
+  padding-top: clamp(52px, 8vh, 96px);
+  color: #fff;
+  background-color: var(--navy);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  text-align: center;
+}
+/* The books artwork peaks at RGB(216,220,230) on the headdress, where white
+   text measures 1.37:1. A navy scrim, heavy at the top where the copy sits and
+   clearing by two-thirds down, keeps the text legible while letting the books
+   read below it. The pre-order pattern needs no scrim - its lightest point is
+   still 12.23:1. */
+.bulk-band::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    rgba(30,62,105,.94) 0%,
+    rgba(30,62,105,.88) 28%,
+    rgba(30,62,105,.45) 58%,
+    rgba(30,62,105,0)   82%);
+}
+.bulk-band > .shell { position: relative; z-index: 1; }
+.bulk-band .bulk { text-align: center; }
+.bulk-band h2 { color: #fff; }
 
 /* ---------- CTA band ---------- */
-.cta-band { text-align: center; color: #fff; background: var(--navy); }
+.cta-band {
+  min-height: clamp(360px, 48svh, 520px);
+  display: grid;
+  place-items: center;
+  text-align: center; color: #fff;
+  background-color: var(--navy);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 .cta-band .availability {
   font-size: clamp(19px, 2.6vw, 30px); margin-bottom: 6px;
 }
@@ -393,15 +446,21 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 
 .band--figure[data-bg] {
   background-color: var(--navy);
+}
+
+/* The cover artwork is navy type on transparent, drawn for a white ground -
+   on navy most of the lockup disappears into the background. */
+.cover-band[data-bg] {
+  background-color: #fff;
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
 }
 
-/* Parallax feel on capable pointers only - avoids the iOS fixed-bg jitter
-   the old theme suffered from. */
-@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
-  .feature-band { background-attachment: fixed; }
+/* Parallax on capable pointers only - iOS ignores background-attachment:fixed
+   and jitters, which is why it is gated to fine pointers at >=900px. */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) and (pointer: fine) {
+  .cover-band, .feature-band, .bulk-band, .cta-band { background-attachment: fixed; }
 }
 
 /* The cover artwork is a navy plate with the books left and the author name

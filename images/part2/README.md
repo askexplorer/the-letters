@@ -45,14 +45,31 @@ roughly 1600 × 2100) would fix it properly.** Save as:
 - `hero-title-mobile.png`
 - `hero-figure-mobile.png`
 
+## In use
+
+| File | Section | Notes |
+|---|---|---|
+| `sky` / `title` / `figure` | Hero | three layers, composited in CSS |
+| `cover` | Book cover band | navy type on transparent — sits on a **white** ground |
+| `quote-photo` | Quote, left column | cropped from the layout page at x=1000 |
+| `bulk-bg` | Bulk Sales | carries a navy scrim (see below) |
+| `preorder-bg` | Pre-order | no scrim needed |
+
+`bulk-bg` peaks at RGB(216,220,230) on the headdress, where white text measures
+1.37:1, so the band lays a navy gradient scrim over it — heavy at the top where
+the copy sits, clear by two-thirds down so the books still read. `preorder-bg`
+is a dark texture whose lightest point is still 12.23:1 and takes no scrim.
+
+Both use `background-attachment: fixed` for parallax, gated to fine pointers at
+≥900px because iOS ignores it and jitters. With `fixed`, the image is sized to
+the **viewport**, not the element — so these bands need real height or they show
+only a thin slice of the artwork.
+
 ## Still outstanding
 
 | File | Size (px) | Used for |
 |---|---|---|
-| `cover.jpg` | 2400 × 1600 | Book cover band |
-| `cover-mobile.jpg` | 1600 × 1600 | Same, under 900px |
-| `feature.jpg` | 2400 × 1100 | Wide feature band below the copy |
-| `feature-mobile.jpg` | 1600 × 1200 | Same, under 900px |
+| `feature.jpg` | 2400 × 1100 | Wide feature band below the copy — section stays collapsed until this exists |
 | `share.jpg` | 1200 × 630 | Social sharing card (OG / Twitter) |
 | `../apple-touch-icon.png` | 180 × 180 | iOS home screen |
 
