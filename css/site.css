@@ -93,54 +93,81 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .section-title { font-size: clamp(28px, 4vw, 44px); letter-spacing: .01em; }
 .rule { border: 0; border-top: 2px dotted var(--gold); margin-block: clamp(36px, 6vw, 56px); }
 
-/* ---------- Hero ---------- */
+/* ---------- Hero (three-layer composite, no text over the art) ---------- */
 .hero {
   position: relative;
   min-height: 100svh;
-  display: grid; place-items: center;
-  padding: 120px 0 96px;
-  background: var(--navy-deep) center center / cover no-repeat;
-  color: #fff; text-align: center;
+  overflow: hidden;
+  background: var(--navy-deep);
+  isolation: isolate;
 }
-.hero::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(22,48,79,.30) 0%, rgba(22,48,79,.62) 100%);
-}
-.hero > * { position: relative; z-index: 1; }
-.hero__script {
-  display: block; font-style: italic; font-weight: 400;
-  font-size: clamp(30px, 5.4vw, 60px); line-height: 1; color: #fff;
-}
-.hero__main {
-  display: block; font-size: clamp(42px, 9vw, 104px);
-  letter-spacing: .06em; line-height: 1.02; margin-top: .06em;
-}
-.hero__ar {
-  display: block; font-family: var(--arabic); font-weight: 700;
-  font-size: clamp(34px, 7vw, 76px); line-height: 1.5; margin-top: .1em;
-}
-.hero__series {
-  margin: 26px auto 0; max-width: 40ch;
-  font-size: clamp(13px, 1.5vw, 16px); letter-spacing: .16em;
-  text-transform: uppercase; color: var(--gold-light);
-}
-.hero__author { display: block; margin-top: 8px; letter-spacing: .1em; color: rgba(255,255,255,.8); }
 
-.badge {
-  display: inline-block; margin-top: 30px; padding: 9px 20px;
-  border: 1px solid var(--gold); border-radius: 999px;
-  font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--gold-light);
+.hero__layers { position: absolute; inset: 0; z-index: 0; }
+
+.hero__layer {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  will-change: transform;
+}
+
+/* 1 — sky plate. Fills the frame. */
+/* Distant layers are oversized top and bottom so their drift never exposes
+   an edge; the amount scales with how far each one lags. */
+.hero__layer--sky {
+  inset: -14% 0;
+  background-position: center center;
+  background-size: cover;
+  background-image: url("../images/part2/layer-1-sky.jpg");
+}
+
+/* 2 — mid wash / haze. Sits over the sky, under the figure. */
+.hero__layer--mid {
+  inset: -9% 0;
+  background-position: center center;
+  background-size: cover;
+  background-image: url("../images/part2/layer-2.png");
+}
+
+/* 3 — the figure. Anchored bottom-right, scaled to frame height so the
+   crop stays consistent as the viewport changes. */
+/* The figure is foreground: it barely lags, so it needs headroom only at the
+   top, and its bottom edge stays flush with the hero's own bottom — anchoring
+   it to an oversized layer would push the figure below the fold. */
+.hero__layer--figure {
+  inset: -4% 0 0 0;
+  background-position: right bottom;
+  background-size: auto 100%;
+  background-image: url("../images/part2/layer-3-figure.png");
+}
+
+/* Gradient floor: shows through before the art lands, and afterwards keeps
+   the bottom edge reading into the section below. */
+.hero::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background: var(--grad-hero);
 }
 
 .scroll-cue {
   position: absolute; bottom: 34px; left: 50%; translate: -50% 0; z-index: 2;
   width: 44px; height: 44px; display: grid; place-items: center;
   color: #fff; text-decoration: none; opacity: .85;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,.45));
   animation: cue 2.4s ease-in-out infinite;
 }
 .scroll-cue:hover { opacity: 1; }
 @keyframes cue { 0%,100% { transform: translateY(0); } 50% { transform: translateY(9px); } }
+
+@media (max-width: 899.98px) {
+  .hero__layer--sky    { background-image: url("../images/part2/layer-1-sky-mobile.jpg"); }
+  .hero__layer--mid    { background-image: url("../images/part2/layer-2-mobile.png"); }
+  .hero__layer--figure {
+    background-image: url("../images/part2/layer-3-figure-mobile.png");
+    background-position: center bottom;
+    background-size: auto 78%;
+  }
+}
 
 /* ---------- Bilingual two-column body ---------- */
 .bilingual {
@@ -276,12 +303,10 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
   --grad-feature: linear-gradient(100deg, #16304F 0%, #1E3E69 50%, #A08F69 100%);
 }
 
-.hero         { background-image: url("../images/part2/hero.jpg"),    var(--grad-hero); }
 .cover-band   { background-image: url("../images/part2/cover.jpg"),   var(--grad-cover); }
 .feature-band { background-image: url("../images/part2/feature.jpg"), var(--grad-feature); }
 
 @media (max-width: 899.98px) {
-  .hero         { background-image: url("../images/part2/hero-mobile.jpg"),    var(--grad-hero); }
   .cover-band   { background-image: url("../images/part2/cover-mobile.jpg"),   var(--grad-cover); }
   .feature-band { background-image: url("../images/part2/feature-mobile.jpg"), var(--grad-feature); }
 }

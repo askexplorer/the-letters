@@ -85,19 +85,25 @@
 </div>
 
 <!-- ============ HERO ============ -->
+<!-- Pure-image hero: the three supplied layers composite here and nothing
+     renders on top of them. The <h1> is visually hidden but still present,
+     so search engines and screen readers get the title even though the
+     hero reads as artwork. -->
 <header class="hero" id="top">
-  <div class="shell">
-    <h1>
-      <span class="hero__script">The</span>
-      <span class="hero__main">LETTERS</span>
-      <span class="hero__ar" lang="ar" dir="rtl">الرسائل</span>
-    </h1>
-    <p class="hero__series">
-      Lessons from Life: Part II
-      <span class="hero__author">By HH Sheikh Mohammed bin Rashid Al Maktoum</span>
-    </p>
-    <p class="badge">Coming soon in English</p>
+
+  <!-- data-depth = how much each layer lags the scroll. Distant layers lag
+       most (sky), the foreground figure tracks it almost exactly. -->
+  <div class="hero__layers" aria-hidden="true">
+    <div class="hero__layer hero__layer--sky"    data-depth="0.26"></div>
+    <div class="hero__layer hero__layer--mid"    data-depth="0.15"></div>
+    <div class="hero__layer hero__layer--figure" data-depth="0.05"></div>
   </div>
+
+  <h1 class="visually-hidden">
+    <span lang="ar" dir="rtl">علّمتني الحياة: الجزء الثاني – الرسائل</span>
+    — Lessons from Life: Part II – The Letters, by HH Sheikh Mohammed bin Rashid Al Maktoum
+  </h1>
+
   <a class="scroll-cue" href="#main" aria-label="Scroll to content">
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 16.5 3.5 8l1.4-1.4L12 13.7l7.1-7.1L20.5 8z"/></svg>
   </a>
@@ -272,6 +278,29 @@
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
   });
+
+  // Hero parallax — layers drift at different rates. Desktop + motion-safe
+  // only; on touch and reduced-motion the layers stay put.
+  var layers = [].slice.call(document.querySelectorAll('.hero__layer[data-depth]'));
+  var motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(min-width: 900px) and (pointer: fine)').matches;
+  if (layers.length && motionOK && finePointer) {
+    var ticking = false;
+    var place = function () {
+      var y = window.scrollY;
+      if (y < window.innerHeight * 1.2) {
+        layers.forEach(function (el) {
+          var d = parseFloat(el.getAttribute('data-depth')) || 0;
+          el.style.transform = 'translate3d(0,' + (y * d).toFixed(2) + 'px,0)';
+        });
+      }
+      ticking = false;
+    };
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; window.requestAnimationFrame(place); }
+    }, { passive: true });
+    place();
+  }
 
   // Pre-order conversion event (fires once GA4 is live)
   document.querySelectorAll('[data-track]').forEach(function (el) {
