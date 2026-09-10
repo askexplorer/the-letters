@@ -152,8 +152,8 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .hero__art img { display: block; width: 100%; height: auto; }
 
 /* Exact offsets from the source frame:
-     title  bbox (246,403)-(835,903)   figure bbox (964,85)-(1904,1306) */
-.hero__art--title  { left: 12.300%; top: 30.858%; width: 29.450%; }
+     title  bbox (142,428)-(953,813)   figure bbox (964,85)-(1904,1306) */
+.hero__art--title  { left:  7.100%; top: 32.772%; width: 40.550%; }
 .hero__art--figure { left: 48.200%; top:  6.508%; width: 47.000%; }
 
 .hero::before {
@@ -247,18 +247,63 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .col-ar .points li { padding-left: 0; padding-right: 26px; }
 .col-ar .points li::before { left: auto; right: 4px; }
 
-/* ---------- Quote band ---------- */
-.quote-band { color: #fff; text-align: center; background: var(--navy); }
-.quote-band .shell { max-width: 900px; }
-.quote-mark { font-size: 54px; line-height: 1; color: var(--gold); margin-bottom: 10px; }
-.quote-ar {
-  font-family: var(--arabic); font-size: clamp(21px, 3vw, 34px);
-  line-height: 1.85; direction: rtl; margin: 0 0 6px; font-weight: 700;
+/* ---------- Quote (photo | text) ---------------------------------------- */
+.quote-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--navy);
+  color: #fff;
 }
-.quote-en { font-size: clamp(17px, 2vw, 25px); line-height: 1.6; font-style: italic; margin: 22px 0 6px; }
+
+.quote-split__media { position: relative; }
+.quote-split__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.quote-split__panel {
+  display: grid;
+  place-items: center;
+  padding: clamp(44px, 6vw, 88px) clamp(24px, 5vw, 76px);
+}
+.quote-split__inner { margin: 0; max-width: 46ch; text-align: center; }
+
+.quote-mark { color: var(--gold); margin: 0 0 18px; line-height: 0; }
+.quote-mark svg { display: inline-block; }
+
+.quote-ar {
+  font-family: var(--arabic);
+  font-size: clamp(17px, 1.5vw, 22px);
+  line-height: 2;
+  direction: rtl;
+  margin: 0 0 14px;
+}
+.quote-en {
+  font-size: clamp(16px, 1.35vw, 20px);
+  line-height: 1.62;
+  margin: 34px 0 12px;
+}
 .quote-cite {
-  display: block; margin-top: 20px; font-size: 13px; letter-spacing: .16em;
-  text-transform: uppercase; color: var(--gold-light); font-style: normal;
+  display: block;
+  font-style: normal;
+  color: var(--gold-light);
+  font-size: clamp(12px, 1.05vw, 14px);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.quote-cite--ar {
+  font-family: var(--arabic);
+  font-size: clamp(15px, 1.3vw, 19px);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* Stack on narrow screens: photo on top, quote beneath. */
+@media (max-width: 899.98px) {
+  .quote-split { grid-template-columns: 1fr; }
+  .quote-split__media img { height: auto; max-height: 62svh; }
 }
 
 /* ---------- Specs + bulk ---------- */
