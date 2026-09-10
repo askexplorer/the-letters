@@ -263,9 +263,10 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: clamp(28px, 5vw, 80px);
+  gap: clamp(28px, 4vw, 72px);
   background: #fff;
-  padding: clamp(56px, 9vw, 120px) var(--gutter);
+  padding: clamp(72px, 10vw, 150px) var(--gutter);
+  min-height: clamp(560px, 78svh, 940px);
 }
 
 .book-split__col { display: grid; place-items: center; }
@@ -274,10 +275,13 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .book-split__col[data-drift] { will-change: transform; }
 .book-split__col img { width: 100%; height: auto; }
 
-/* Sized to hold the weighting of the original plate, where the books ran a
-   little larger than the lockup. */
-.book-split__col--books img { max-width: min(100%, 560px); }
-.book-split__col--title img { max-width: min(100%, 420px); }
+/* Fluid, so the pair fills a wide viewport instead of floating small in it.
+   Ceilings are the assets' native pixel widths - books 783, title 515 - past
+   which they would simply be upscaled. The source plate is 2000x1306, so that
+   is the hard limit; a larger export is needed to go bigger crisply, and on a
+   2x screen these are already being resampled. */
+.book-split__col--books img { max-width: min(100%, clamp(420px, 46vw, 780px)); }
+.book-split__col--title img { max-width: min(100%, clamp(300px, 31vw, 515px)); }
 
 /* Books on top, title beneath. */
 @media (max-width: 899.98px) {
