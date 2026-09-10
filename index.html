@@ -128,12 +128,29 @@
 <main id="main">
 
   <!-- ============ COVER ============ -->
-  <!-- Image bands stay collapsed until their artwork exists, so the page
-       never shows an empty coloured void. Drop the file in and it appears -
-       no code change. See images/part2/README.md. -->
-  <section class="band band--figure cover-band" aria-label="The book"
-           data-bg="images/part2/cover" hidden>
-    <p class="visually-hidden">The Arabic and English hardback editions of Lessons from Life: Part II – The Letters.</p>
+  <!-- ============ THE BOOK ============ -->
+  <!-- Two columns on a white ground: books left, title lockup right. Split
+       from the single supplied plate at its natural 125px gutter, so each
+       half can be placed independently and stack on narrow screens. -->
+  <section class="book-split" aria-label="The book">
+
+    <div class="book-split__col book-split__col--books">
+      <picture>
+        <source srcset="images/part2/cover-books.webp" type="image/webp" />
+        <img src="images/part2/cover-books.png" alt="" width="783" height="605"
+             loading="lazy" decoding="async" />
+      </picture>
+    </div>
+
+    <div class="book-split__col book-split__col--title">
+      <picture>
+        <source srcset="images/part2/cover-title.webp" type="image/webp" />
+        <img src="images/part2/cover-title.png"
+             alt="Lessons from Life: Part II – The Letters, by Mohammed bin Rashid Al Maktoum"
+             width="515" height="514" loading="lazy" decoding="async" />
+      </picture>
+    </div>
+
   </section>
 
   <!-- ============ QUOTE ============ -->

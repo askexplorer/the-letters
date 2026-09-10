@@ -253,6 +253,40 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .col-ar .points li { padding-left: 0; padding-right: 26px; }
 .col-ar .points li::before { left: auto; right: 4px; }
 
+/* ---------- The book (books | title) ------------------------------------
+   The supplied plate is navy type on transparent, drawn for a white ground.
+   It was split at its natural 125px gutter (x 1031-1155 of 2000) into two
+   trimmed halves, so they sit in real columns and reflow instead of being one
+   image that has to crop.
+   ------------------------------------------------------------------------ */
+.book-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(28px, 5vw, 80px);
+  background: #fff;
+  padding: clamp(56px, 9vw, 120px) var(--gutter);
+}
+
+.book-split__col { display: grid; place-items: center; }
+.book-split__col img { width: 100%; height: auto; }
+
+/* Sized to hold the weighting of the original plate, where the books ran a
+   little larger than the lockup. */
+.book-split__col--books img { max-width: min(100%, 560px); }
+.book-split__col--title img { max-width: min(100%, 420px); }
+
+/* Books on top, title beneath. */
+@media (max-width: 899.98px) {
+  .book-split {
+    grid-template-columns: 1fr;
+    gap: clamp(30px, 7vw, 52px);
+    padding-block: clamp(48px, 11vw, 84px);
+  }
+  .book-split__col--books img { max-width: min(84%, 420px); }
+  .book-split__col--title img { max-width: min(72%, 340px); }
+}
+
 /* ---------- Quote (photo | text) ---------------------------------------- */
 .quote-split {
   display: grid;
@@ -446,12 +480,6 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 
 .band--figure[data-bg] {
   background-color: var(--navy);
-}
-
-/* The cover artwork is navy type on transparent, drawn for a white ground -
-   on navy most of the lockup disappears into the background. */
-.cover-band[data-bg] {
-  background-color: #fff;
   background-position: center center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -460,20 +488,5 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 /* Parallax on capable pointers only - iOS ignores background-attachment:fixed
    and jitters, which is why it is gated to fine pointers at >=900px. */
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) and (pointer: fine) {
-  .cover-band, .feature-band, .bulk-band, .cta-band { background-attachment: fixed; }
-}
-
-/* The cover artwork is a navy plate with the books left and the author name
-   right. Cropping to fill a portrait band cuts both off, so on portrait the
-   band takes the artwork's own aspect and contains it instead. The plate's
-   navy matches --navy, so the join is invisible either way. */
-@media (max-aspect-ratio: 13/10) {
-  /* [data-bg] is repeated here on purpose: `.band--figure[data-bg]` sets
-     background-size:cover at (0,2,0), which outranks a bare `.cover-band`
-     at (0,1,0), so without it the `contain` below is silently ignored. */
-  .cover-band[data-bg] {
-    min-height: 0;
-    aspect-ratio: 2000 / 1306;
-    background-size: contain;
-  }
+  .feature-band, .bulk-band, .cta-band { background-attachment: fixed; }
 }
