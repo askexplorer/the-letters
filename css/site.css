@@ -93,11 +93,20 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .section-title { font-size: clamp(28px, 4vw, 44px); letter-spacing: .01em; }
 .rule { border: 0; border-top: 2px dotted var(--gold); margin-block: clamp(36px, 6vw, 56px); }
 
-/* ---------- Hero (three-layer composite, no text over the art) ----------
-   The three supplied layers share one 2000x1306 frame and are pre-aligned by
-   the designer, so the title and figure MUST render at identical size and
-   position or the lockup tears apart. Only the sky is allowed to drift.
-   ---------------------------------------------------------------------- */
+/* ---------- Hero -----------------------------------------------------------
+   The title and figure are trimmed to their exact alpha bounding boxes, which
+   lets them be placed independently per breakpoint.
+
+   Wide screens: a stage carrying the artwork's original 2000x1306 aspect is
+   sized to cover the hero, and the two pieces sit at the exact percentage
+   offsets they occupied in the designer's composition, so it is reproduced
+   pixel-faithfully.
+
+   Portrait screens: the stage becomes a column - title top, figure bottom -
+   and the sky crops freely behind. The original lockup is a 1.53:1 landscape
+   with the title hard left and the figure hard right; holding that on a phone
+   either clips both or shrinks them to a third of the screen.
+   -------------------------------------------------------------------------- */
 .hero {
   position: relative;
   min-height: 100svh;
@@ -105,42 +114,42 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
   background: var(--navy-deep);
   isolation: isolate;
 }
-
 .hero__layers { position: absolute; inset: 0; z-index: 0; }
 
-.hero__layer {
+/* --- sky: abstract, crops freely, and the only layer that drifts --- */
+.hero__sky {
   position: absolute;
-  inset: 0;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-
-/* 1 — sky. Abstract, so it can crop freely and is the only layer that moves.
-   Oversized top and bottom to give the drift somewhere to go. */
-.hero__layer--sky {
   inset: -12% 0;
-  background-image: image-set(url("../images/part2/hero-sky.webp") type("image/webp"),
-                              url("../images/part2/hero-sky.jpg")  type("image/jpeg"));
-  background-size: cover;
+  background-image: image-set(url("../images/part2/sky.webp") type("image/webp"),
+                              url("../images/part2/sky.jpg")  type("image/jpeg"));
+  /* Oversized rather than `cover` so there is vertical slack to crop with.
+     At plain cover the image exactly fills the layer, background-position has
+     no effect, and the white title lands on the palest band of the gradient.
+     Anchoring to the bottom drops the lightest 18% out of frame. */
+  background-size: auto 118%;
+  background-position: center bottom;
+  background-repeat: no-repeat;
   will-change: transform;
 }
 
-/* 2 + 3 — the locked artwork: title left, figure right. Identical sizing and
-   position, no transform, so they can never separate from each other. */
-.hero__layer--title {
-  background-image: image-set(url("../images/part2/hero-title.webp") type("image/webp"),
-                              url("../images/part2/hero-title.png")  type("image/png"));
-}
-.hero__layer--figure {
-  background-image: image-set(url("../images/part2/hero-figure.webp") type("image/webp"),
-                              url("../images/part2/hero-figure.png")  type("image/png"));
+/* --- stage: covers the hero while holding the artwork's aspect --- */
+.hero__stage {
+  position: absolute;
+  left: 50%; top: 50%;
+  translate: -50% -50%;
+  width: 100%;
+  min-width: calc(100svh * 2000 / 1306);
+  aspect-ratio: 2000 / 1306;
 }
 
-.hero__layer--title,
-.hero__layer--figure { background-size: cover; }
+.hero__art { position: absolute; display: block; }
+.hero__art img { display: block; width: 100%; height: auto; }
 
-/* Gradient floor: shows through before the art loads and keeps the bottom
-   edge reading into the section below. */
+/* Exact offsets from the source frame:
+     title  bbox (246,403)-(835,903)   figure bbox (964,85)-(1904,1306) */
+.hero__art--title  { left: 12.300%; top: 30.858%; width: 29.450%; }
+.hero__art--figure { left: 48.200%; top:  6.508%; width: 47.000%; }
+
 .hero::before {
   content: "";
   position: absolute; inset: 0; z-index: -1;
@@ -157,31 +166,56 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .scroll-cue:hover { opacity: 1; }
 @keyframes cue { 0%,100% { transform: translateY(0); } 50% { transform: translateY(9px); } }
 
-/* Portrait screens: the artwork is a 1.53:1 landscape lockup with the title
-   hard left and the figure hard right. Cropping it to a tall viewport would
-   cut BOTH off, so the lockup is contained (whole composition always visible)
-   while the sky still covers the full frame behind it.
-   This is an interim treatment — a portrait crop of the artwork would sit far
-   better here. See images/part2/README.md. */
-@media (max-width: 899.98px) {
-  .hero__layer--title,
-  .hero__layer--figure {
-    /* The live artwork sits at x 248-1900 of the 2000px frame, so ~250px down
-       the left is empty. Scaling to 121% pushes that dead margin off-screen
-       and lets the real content span the full width, without clipping either
-       the title (starts x248) or the figure (ends x1900). Lifts the lockup
-       from 30% to ~36% of hero height. */
-    /* The artwork's margins are asymmetric (248px dead space left, 100px
-       right), so centring the FRAME does not centre the CONTENT. Sizing and
-       position are solved together to land the live content (x248-1900) in a
-       5% gutter each side at any viewport width:
-         imageW = 0.9W / (1652/2000)          -> 109%
-         (W - imageW)*P + (248/2000)*imageW = 0.05W  -> P = 95%
-       At 121%/71.3% the content sat edge-to-edge and the title touched the
-       screen border. */
-    background-size: 109% auto;
-    background-position: 95% 46%;
+/* --- Portrait / narrow: stack the pieces --------------------------------- */
+@media (max-aspect-ratio: 13/10) {
+  /* The sky is a vertical gradient, light at top (lum 167) to dark at bottom
+     (lum 66). At `cover` on a tall screen the full gradient shows, dropping
+     the white title onto the lightest band at 2.5:1 - under the 3:1 large-text
+     floor. Oversizing to 175% and anchoring to the bottom crops the pale top
+     away, putting the title over lum ~126 (about 4.2:1, better than desktop's
+     3.6:1) and keeping the dark base behind the figure. */
+  .hero__sky {
+    inset: 0;
+    background-size: auto 175%;
+    background-position: center bottom;
   }
+
+  .hero__stage {
+    position: absolute;
+    inset: 0;
+    left: 0; top: 0;
+    translate: none;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    aspect-ratio: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: clamp(56px, 12svh, 130px) 6vw 0;
+  }
+
+  .hero__art { position: static; }
+
+  /* Cap scales with the screen: ~231px on a phone, ~460px on a tablet, so
+     the title does not look stranded on the wider portrait viewports. */
+  .hero__art--title {
+    width: min(70%, 460px);
+    flex: 0 0 auto;
+  }
+
+  /* Anchored to the bottom edge and capped by height, which is the axis that
+     actually runs out in portrait. */
+  .hero__art--figure {
+    width: auto;
+    height: min(56svh, 560px);
+    margin-top: auto;
+    flex: 0 0 auto;
+  }
+  .hero__art--figure img { width: auto; height: 100%; }
+
+  /* The figure now occupies the bottom edge, where the cue used to sit. */
+  .scroll-cue { display: none; }
 }
 
 /* ---------- Bilingual two-column body ---------- */

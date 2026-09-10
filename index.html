@@ -85,18 +85,34 @@
 </div>
 
 <!-- ============ HERO ============ -->
-<!-- Pure-image hero: the three supplied layers composite here and nothing
-     renders on top of them. The <h1> is visually hidden but still present,
-     so search engines and screen readers get the title even though the
-     hero reads as artwork. -->
+<!-- Pure-image hero. Nothing renders over the art; the <h1> is visually
+     hidden so search engines and screen readers still get the title.
+
+     The title and figure are trimmed to their exact alpha bounding boxes, so
+     they can be positioned independently. On wide screens they sit inside a
+     stage that reproduces the designer's original 2000x1306 composition
+     exactly. On portrait screens the stage becomes a column: title on top,
+     figure anchored to the bottom, sky cropping freely behind. -->
 <header class="hero" id="top">
 
-  <!-- Only the sky drifts. The title and figure are a single locked artwork
-       from the designer and carry no transform, so they cannot separate. -->
   <div class="hero__layers" aria-hidden="true">
-    <div class="hero__layer hero__layer--sky" data-depth="0.18"></div>
-    <div class="hero__layer hero__layer--title"></div>
-    <div class="hero__layer hero__layer--figure"></div>
+
+    <div class="hero__sky" data-depth="0.18"></div>
+
+    <div class="hero__stage">
+      <picture class="hero__art hero__art--title">
+        <source srcset="images/part2/title.webp" type="image/webp" />
+        <img src="images/part2/title.png" alt="" width="589" height="500"
+             decoding="async" fetchpriority="high" />
+      </picture>
+
+      <picture class="hero__art hero__art--figure">
+        <source srcset="images/part2/figure.webp" type="image/webp" />
+        <img src="images/part2/figure.png" alt="" width="940" height="1221"
+             decoding="async" fetchpriority="high" />
+      </picture>
+    </div>
+
   </div>
 
   <h1 class="visually-hidden">
@@ -281,7 +297,7 @@
 
   // Hero parallax — layers drift at different rates. Desktop + motion-safe
   // only; on touch and reduced-motion the layers stay put.
-  var layers = [].slice.call(document.querySelectorAll('.hero__layer[data-depth]'));
+  var layers = [].slice.call(document.querySelectorAll('.hero__sky[data-depth]'));
   var motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var finePointer = window.matchMedia('(min-width: 900px) and (pointer: fine)').matches;
   if (layers.length && motionOK && finePointer) {
