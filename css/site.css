@@ -75,11 +75,21 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 
 /* Arabic type */
-/* Lateef is a Naskh face: measured against Cairo at the same size it is 12%
-   shorter in glyph height and 57% narrower, so Arabic is set ~1.15x larger to
-   restore the optical size. The narrowness is the typeface's character and is
-   left alone. Leading stays generous - Naskh carries tall diacritics. */
-[lang="ar"] { font-family: var(--arabic); line-height: 1.9; }
+/* ---------- Arabic type ------------------------------------------------
+   Lateef is a Naskh face and sets much smaller than Georgia at the same px.
+   Every Arabic role is scaled here in one place rather than per element -
+   doing it piecemeal previously left headings and list items at the English
+   size, where they read visibly small next to the Latin column.
+   --ar-scale drives the inherited cases; roles that set their own size are
+   listed explicitly below so none can be missed again.
+   ---------------------------------------------------------------------- */
+:root { --ar-scale: 1.42; }
+
+[lang="ar"] {
+  font-family: var(--arabic);
+  line-height: 1.85;
+  font-size: calc(1em * var(--ar-scale));   /* catches bullets and loose text */
+}
 
 /* ---------- Site logo ---------- */
 .site-logo { position: absolute; top: clamp(20px, 3vw, 40px); left: clamp(20px, 3vw, 40px); z-index: 20; }
@@ -259,8 +269,17 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 
 .col-en { text-align: left; }
 .col-ar { text-align: right; direction: rtl; }
-.col-en p, .col-ar p { font-size: clamp(15px, 1.15vw, 17px); }
-.col-ar p { font-size: clamp(18px, 1.44vw, 22px); }
+/* Scoped to the body wrapper, not every <p> in the column. `.col-en p`
+   (0,1,1) outranked `.eyebrow` (0,1,0), so the eyebrow that is a <p> took the
+   body size while the one that is an <h3> kept 13px - the two labels rendered
+   at 17px and 13px in the same column. Targeting the wrapper removes the
+   collision instead of escalating specificity against it. */
+.col-en > div p { font-size: clamp(15px, 1.15vw, 17px); }
+.col-ar > div p { font-size: clamp(21px, 1.62vw, 24px); }
+
+/* Roles that declare their own size need it restated at Arabic scale. */
+.col-ar .eyebrow       { font-size: 18px; letter-spacing: .08em; }
+.col-ar .section-title { font-size: clamp(38px, 5.5vw, 60px); }
 
 /* ---------- Key points ---------- */
 .points { list-style: none; margin: 0; padding: 0; }
@@ -347,8 +366,8 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 
 .quote-ar {
   font-family: var(--arabic);
-  font-size: clamp(20px, 1.72vw, 25px);
-  line-height: 1.95;
+  font-size: clamp(23px, 1.95vw, 29px);
+  line-height: 1.9;
   direction: rtl;
   margin: 0 0 14px;
 }
@@ -367,7 +386,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 }
 .quote-cite--ar {
   font-family: var(--arabic);
-  font-size: clamp(17px, 1.5vw, 22px);
+  font-size: clamp(19px, 1.7vw, 25px);
   letter-spacing: normal;
   text-transform: none;
 }
