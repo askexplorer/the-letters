@@ -87,12 +87,14 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 
 [lang="ar"] {
   font-family: var(--arabic);
-  /* 1.85 was set when Arabic ran near the English size. It now compounds with
-     the 1.35x larger type, giving line boxes 59% taller than the English
-     column. Lateef's glyphs occupy 116% of the font-size (78 ascent + 38
-     descent measured), so 1.45 still leaves ~29% clearance for the diacritics
-     and brings the two columns back into the same rhythm. */
-  line-height: 1.45;
+  /* 1.85 was set when Arabic ran near the English size; it compounded with the
+     1.35x larger type and left Arabic line boxes 59% taller than the English
+     column. Lateef declares generous metrics - 145 units per 100px (95 ascent
+     + 50 descent) - which is why its natural leading is 1.45. The ink is far
+     smaller: 107 units worst case, measured on a string with stacked marks and
+     descenders. So 1.35 overlaps the metric boxes but leaves the glyphs 28
+     units of clearance, and brings the two columns into the same rhythm. */
+  line-height: 1.35;
   font-size: calc(1em * var(--ar-scale));   /* catches bullets and loose text */
 }
 
@@ -272,6 +274,26 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 }
 @media (min-width: 900px) { .bilingual { grid-template-columns: 1fr 1fr; } }
 
+/* The columns are two independent blocks, so the Arabic heading - 60px against
+   the English 44px - made its column taller and pushed the Arabic body out of
+   step with the English. Subgrid puts both columns on the same five rows
+   (eyebrow / title / body / key-points label / list), so each pair starts
+   together regardless of how the two scripts size. Bottom-aligning the eyebrow
+   and title rows sits the two titles on a common line rather than a common
+   top, which is what the differing cap heights need. */
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 900px) {
+    .bilingual { grid-template-rows: repeat(5, auto); }
+    .col-en, .col-ar {
+      display: grid;
+      grid-template-rows: subgrid;
+      grid-row: span 5;
+    }
+    .col-en > .eyebrow, .col-ar > .eyebrow,
+    .col-en > .section-title, .col-ar > .section-title { align-self: end; }
+  }
+}
+
 .col-en { text-align: left; }
 .col-ar { text-align: right; direction: rtl; }
 /* Scoped to the body wrapper, not every <p> in the column. `.col-en p`
@@ -372,7 +394,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .quote-ar {
   font-family: var(--arabic);
   font-size: clamp(23px, 1.95vw, 29px);
-  line-height: 1.5;
+  line-height: 1.42;
   direction: rtl;
   margin: 0 0 14px;
 }
