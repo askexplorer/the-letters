@@ -18,7 +18,7 @@
   --rule:        rgba(160,143,105,.45);
 
   --serif:  Georgia, "Droid Serif", "Times New Roman", Times, serif;
-  --arabic: "Cairo", "Sakkal Majalla", "Traditional Arabic", Tahoma, Arial, sans-serif;
+  --arabic: "Lateef", "Sakkal Majalla", "Traditional Arabic", "Geeza Pro", Tahoma, serif;
 
   /* Shown behind the hero until the sky image loads. */
   --grad-hero: radial-gradient(120% 90% at 50% 0%, #2A5286 0%, #1E3E69 45%, #12283F 100%);
@@ -75,7 +75,11 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 
 /* Arabic type */
-[lang="ar"] { font-family: var(--arabic); line-height: 1.95; }
+/* Lateef is a Naskh face: measured against Cairo at the same size it is 12%
+   shorter in glyph height and 57% narrower, so Arabic is set ~1.15x larger to
+   restore the optical size. The narrowness is the typeface's character and is
+   left alone. Leading stays generous - Naskh carries tall diacritics. */
+[lang="ar"] { font-family: var(--arabic); line-height: 1.9; }
 
 /* ---------- Site logo ---------- */
 .site-logo { position: absolute; top: clamp(20px, 3vw, 40px); left: clamp(20px, 3vw, 40px); z-index: 20; }
@@ -256,7 +260,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .col-en { text-align: left; }
 .col-ar { text-align: right; direction: rtl; }
 .col-en p, .col-ar p { font-size: clamp(15px, 1.15vw, 17px); }
-.col-ar p { font-size: clamp(16px, 1.25vw, 19px); }
+.col-ar p { font-size: clamp(18px, 1.44vw, 22px); }
 
 /* ---------- Key points ---------- */
 .points { list-style: none; margin: 0; padding: 0; }
@@ -343,8 +347,8 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 
 .quote-ar {
   font-family: var(--arabic);
-  font-size: clamp(17px, 1.5vw, 22px);
-  line-height: 2;
+  font-size: clamp(20px, 1.72vw, 25px);
+  line-height: 1.95;
   direction: rtl;
   margin: 0 0 14px;
 }
@@ -363,7 +367,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 }
 .quote-cite--ar {
   font-family: var(--arabic);
-  font-size: clamp(15px, 1.3vw, 19px);
+  font-size: clamp(17px, 1.5vw, 22px);
   letter-spacing: normal;
   text-transform: none;
 }
