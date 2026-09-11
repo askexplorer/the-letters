@@ -30,6 +30,8 @@ its artwork exists)* → specs → pre-order → bulk sales → footer.
 
 ## Notes for whoever picks this up
 
+- **Fonts are self-hosted.** Lateef ships from `fonts/`, Arabic subset only —
+  the English column is Georgia, so Google's latin faces were dead weight.
 - **No framework.** The Part 1 page loaded 1.44 MB of Canvas theme, bootstrap
   and jQuery for five sections. This is one 19 KB stylesheet and ~2 KB of
   inline JS.
@@ -56,9 +58,4 @@ Leaving it in place would make the real page invisible to Google.
 - `images/part2/feature.jpg` — that section stays collapsed until it lands
 - `images/part2/share.jpg` (1200×630) — social card
 - `images/apple-touch-icon.png` (180×180)
-- **GA4 Measurement ID** — the tag is written and commented out in `index.html`
-  with a `preorder_click` conversion event ready. The old UA property stopped
-  collecting in July 2023.
 - **Publication date** — omitted from the schema rather than invented
-- **Copy conflict:** the page says the English edition is *available* in one
-  place and *coming soon* in two others. Needs a decision.

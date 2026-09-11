@@ -6,8 +6,8 @@
 <meta name="author" content="Explorer Publishing" />
 
 <title>علّمتني الحياة: الجزء الثاني – الرسائل | Lessons from Life: Part II – The Letters</title>
-<meta name="description" content="26 letters on trust, legacy and what we leave behind — the latest book by HH Sheikh Mohammed bin Rashid Al Maktoum. Pre-order the Arabic edition from Explorer Publishing." />
-<meta name="keywords" content="علّمتني الحياة الجزء الثاني, الرسائل, Lessons from Life Part II, The Letters, HH Sheikh Mohammed bin Rashid, UAE books, Arabic books, Dubai leadership books" />
+<meta name="description" content="26 letters on trust, legacy and what we leave behind — the latest book by HH Sheikh Mohammed bin Rashid Al Maktoum. Pre-order the Arabic or English hardback from Explorer Publishing." />
+<meta name="keywords" content="علّمتني الحياة الجزء الثاني, الرسائل, Lessons from Life Part II, The Letters, HH Sheikh Mohammed bin Rashid Al Maktoum, Explorer Publishing, UAE books, Arabic books, English edition, Dubai leadership books, 978-1-78596-228-8, 978-9948-9973-0-6" />
 <link rel="canonical" href="https://askexplorer.com/lessonsfromlife/" />
 
 <!-- Social sharing -->
@@ -16,23 +16,25 @@
 <meta property="og:locale" content="en_AE" />
 <meta property="og:locale:alternate" content="ar_AE" />
 <meta property="og:title" content="Lessons from Life: Part II – The Letters" />
-<meta property="og:description" content="26 letters on trust, legacy and what we leave behind — the latest book by HH Sheikh Mohammed bin Rashid Al Maktoum. Pre-order now." />
+<meta property="og:description" content="26 letters on trust, legacy and what we leave behind — the latest book by HH Sheikh Mohammed bin Rashid Al Maktoum. Arabic and English hardback editions, pre-order now." />
 <meta property="og:image" content="https://askexplorer.com/lessonsfromlife/images/part2/share.jpg" />
 <meta property="og:image:alt" content="Lessons from Life: Part II – The Letters, by HH Sheikh Mohammed bin Rashid Al Maktoum" />
 <meta property="og:url" content="https://askexplorer.com/lessonsfromlife/" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@askexplorer" />
 <meta name="twitter:title" content="Lessons from Life: Part II – The Letters" />
-<meta name="twitter:description" content="26 letters on trust, legacy and what we leave behind. Pre-order now." />
+<meta name="twitter:description" content="26 letters on trust, legacy and what we leave behind. Arabic and English hardback editions, pre-order now." />
 <meta name="twitter:image" content="https://askexplorer.com/lessonsfromlife/images/part2/share.jpg" />
 
 <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
 <meta name="theme-color" content="#1E3E69" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lateef:wght@400;700&amp;display=swap" />
+<link rel="preload" href="fonts/lateef-arabic-400.woff2" as="font" type="font/woff2" crossorigin />
+<!-- Hero art is the LCP. The sky is a CSS background, so without this the
+     browser cannot start it until the stylesheet has parsed. -->
+<link rel="preload" href="images/part2/sky.webp" as="image" type="image/webp" />
+<link rel="preload" href="images/part2/figure.webp" as="image" type="image/webp" fetchpriority="high" />
 <link rel="stylesheet" href="css/site.css" />
 
 <script type="application/ld+json">
@@ -42,37 +44,56 @@
   "name": "علّمتني الحياة: الجزء الثاني – الرسائل",
   "alternateName": "Lessons from Life: Part II – The Letters",
   "author": { "@type": "Person", "name": "HH Sheikh Mohammed bin Rashid Al Maktoum" },
-  "isbn": "978-1-78596-228-8",
-  "numberOfPages": 157,
-  "bookFormat": "https://schema.org/Hardcover",
-  "inLanguage": "ar",
   "isPartOf": { "@type": "BookSeries", "name": "Lessons from Life" },
   "position": 2,
   "publisher": { "@type": "Organization", "name": "Explorer Publishing", "url": "https://askexplorer.com/" },
   "image": "https://askexplorer.com/lessonsfromlife/images/part2/share.jpg",
   "url": "https://askexplorer.com/lessonsfromlife/",
-  "description": "26 letters written by HH Sheikh Mohammed bin Rashid Al Maktoum to those closest to him and to the nation he has spent nearly six decades serving — on trust, legacy and the responsibility of building something lasting.",
-  "offers": {
-    "@type": "Offer",
-    "url": "https://shop.askexplorer.com/hh-books/lessons-from-life-part-two-the-letters.html",
-    "price": "89.00",
-    "priceCurrency": "AED",
-    "availability": "https://schema.org/PreOrder",
-    "seller": { "@type": "Organization", "name": "Explorer Publishing" }
-  }
+  "description": "26 letters written by HH Sheikh Mohammed bin Rashid Al Maktoum to those closest to him and to the nation he has spent nearly six decades serving — on trust, legacy and the responsibility of building something lasting. Available in Arabic and English hardback editions.",
+  "workExample": [
+    {
+      "@type": "Book",
+      "bookEdition": "Arabic",
+      "inLanguage": "ar",
+      "isbn": "978-1-78596-228-8",
+      "bookFormat": "https://schema.org/Hardcover",
+      "numberOfPages": 157,
+      "offers": {
+        "@type": "Offer",
+        "url": "https://shop.askexplorer.com/hh-books/lessons-from-life-part-two-the-letters.html",
+        "price": "89.00",
+        "priceCurrency": "AED",
+        "availability": "https://schema.org/PreOrder",
+        "seller": { "@type": "Organization", "name": "Explorer Publishing" }
+      }
+    },
+    {
+      "@type": "Book",
+      "bookEdition": "English",
+      "inLanguage": "en",
+      "isbn": "978-9948-9973-0-6",
+      "bookFormat": "https://schema.org/Hardcover",
+      "offers": {
+        "@type": "Offer",
+        "url": "https://shop.askexplorer.com/hh-books/lessons-from-life-part-two-the-letters.html",
+        "price": "89.00",
+        "priceCurrency": "AED",
+        "availability": "https://schema.org/PreOrder",
+        "seller": { "@type": "Organization", "name": "Explorer Publishing" }
+      }
+    }
+  ]
 }
 </script>
 
-<!-- TODO: swap G-XXXXXXXXXX for the real GA4 Measurement ID, then uncomment.
-     The old UA-2073934-7 property stopped collecting in July 2023.
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<!-- GA4. Replaced the UA property, which stopped collecting in July 2023. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B849YPRY3N"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
+  gtag('config', 'G-B849YPRY3N');
 </script>
--->
 </head>
 
 <body>
@@ -136,7 +157,9 @@
     <div class="book-split__col book-split__col--books" data-drift="-26">
       <picture>
         <source srcset="images/part2/cover-books.webp?v=2" type="image/webp" />
-        <img src="images/part2/cover-books.png?v=2" alt="" width="783" height="605"
+        <img src="images/part2/cover-books.png?v=2"
+             alt="The Letters shown in both editions: the English hardback and the Arabic hardback, علّمتني الحياة: الجزء الثاني – الرسائل"
+             width="783" height="605"
              loading="lazy" decoding="async" />
       </picture>
     </div>
@@ -235,9 +258,10 @@
     <div class="shell">
       <h2 class="visually-hidden">Book details</h2>
       <dl class="specs specs--wide">
-        <div><dt>Language</dt><dd>Arabic</dd></div>
-        <div><dt>ISBN</dt><dd>978-1-78596-228-8</dd></div>
+        <div><dt>Language</dt><dd>Arabic and English</dd></div>
         <div><dt>Format</dt><dd>Hardback</dd></div>
+        <div><dt>ISBN &mdash; Arabic</dt><dd>978-1-78596-228-8</dd></div>
+        <div><dt>ISBN &mdash; English</dt><dd>978-9948-9973-0-6</dd></div>
         <div><dt>Size</dt><dd>170&nbsp;mm &times; 250&nbsp;mm</dd></div>
         <div><dt>Pages</dt><dd>157</dd></div>
         <div><dt>Retail price</dt><dd>AED&nbsp;89 (inclusive of VAT)</dd></div>
@@ -249,10 +273,9 @@
   <section class="section cta-band band--dark" id="order"
            data-bg="images/part2/preorder-bg">
     <div class="shell">
-      <p class="availability"><strong>Pre-order now:</strong> <span>Arabic edition</span></p>
-      <p class="ships">English edition coming soon</p>
+      <h2 class="visually-hidden">Pre-order The Letters</h2>
       <a class="button" href="https://shop.askexplorer.com/hh-books/lessons-from-life-part-two-the-letters.html" target="_blank" rel="noopener"
-         data-track="preorder-arabic">Pre-Order</a>
+         data-track="preorder">Pre-Order</a>
     </div>
   </section>
 
@@ -357,7 +380,12 @@
 
   // Image bands: reveal only once the artwork actually loads. Tries .webp
   // first, then .jpg, so it works whether or not the WebP pass has run.
-  document.querySelectorAll('[data-bg]').forEach(function (el) {
+  // Image bands: reveal only once the artwork actually loads, and only start
+  // fetching when the band is near the viewport. These are decorative
+  // backgrounds well below the fold - loading them eagerly put 146 KB on the
+  // critical path for pixels nobody had scrolled to yet.
+  var bands = [].slice.call(document.querySelectorAll('[data-bg]'));
+  var loadBand = function (el) {
     var base = el.getAttribute('data-bg');
     var tryLoad = function (exts) {
       // Out of formats. A decorative band stays collapsed; a band carrying
@@ -372,32 +400,26 @@
       img.src = base + ext;
     };
     tryLoad(['.webp', '.jpg']);
-  });
+  };
 
-  // Section parallax: elements drift as their section crosses the viewport.
-  // Separate from the hero handler above, which uses a scroll-anchored formula
-  // tuned to the hero's own edge coverage and is left alone.
-  var drifters = [].slice.call(document.querySelectorAll('[data-drift]'));
-  if (drifters.length && motionOK && finePointer) {
-    var dTicking = false;
-    var placeDrift = function () {
-      var vh = window.innerHeight;
-      drifters.forEach(function (el) {
-        var r = el.getBoundingClientRect();
-        if (r.bottom < -100 || r.top > vh + 100) return;   // outside: skip
-        var amount = parseFloat(el.getAttribute('data-drift')) || 0;
-        // -1 when entering from below, 0 at centre, +1 when leaving at top
-        var progress = ((r.top + r.height / 2) - vh / 2) / (vh / 2 + r.height / 2);
-        progress = Math.max(-1, Math.min(1, progress));
-        el.style.transform = 'translate3d(0,' + (progress * amount).toFixed(2) + 'px,0)';
+  // A band that starts hidden has no box, so IntersectionObserver would never
+  // fire for it and it could never un-hide. Those are probed straight away -
+  // the probe is what decides whether they appear at all. Bands that are
+  // already visible carry their own content and only need the artwork by the
+  // time you reach them, so those are deferred.
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        io.unobserve(entry.target);
+        loadBand(entry.target);
       });
-      dTicking = false;
-    };
-    window.addEventListener('scroll', function () {
-      if (!dTicking) { dTicking = true; window.requestAnimationFrame(placeDrift); }
-    }, { passive: true });
-    window.addEventListener('resize', placeDrift, { passive: true });
-    placeDrift();
+    }, { rootMargin: '600px 0px' });   // start a screen early, so it is ready
+    bands.forEach(function (el) {
+      if (el.hidden) { loadBand(el); } else { io.observe(el); }
+    });
+  } else {
+    bands.forEach(loadBand);
   }
 
   // Pre-order conversion event (fires once GA4 is live)
