@@ -87,7 +87,12 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 
 [lang="ar"] {
   font-family: var(--arabic);
-  line-height: 1.85;
+  /* 1.85 was set when Arabic ran near the English size. It now compounds with
+     the 1.35x larger type, giving line boxes 59% taller than the English
+     column. Lateef's glyphs occupy 116% of the font-size (78 ascent + 38
+     descent measured), so 1.45 still leaves ~29% clearance for the diacritics
+     and brings the two columns back into the same rhythm. */
+  line-height: 1.45;
   font-size: calc(1em * var(--ar-scale));   /* catches bullets and loose text */
 }
 
@@ -367,7 +372,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .quote-ar {
   font-family: var(--arabic);
   font-size: clamp(23px, 1.95vw, 29px);
-  line-height: 1.9;
+  line-height: 1.5;
   direction: rtl;
   margin: 0 0 14px;
 }
