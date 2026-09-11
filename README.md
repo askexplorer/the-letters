@@ -57,5 +57,4 @@ Leaving it in place would make the real page invisible to Google.
 
 - `images/part2/feature.jpg` — that section stays collapsed until it lands
 - `images/part2/share.jpg` (1200×630) — social card
-- `images/apple-touch-icon.png` (180×180)
 - **Publication date** — omitted from the schema rather than invented
