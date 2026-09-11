@@ -25,7 +25,9 @@
 
   --shell:  1180px;
   --gutter: clamp(20px, 5vw, 52px);
-  --flow:   clamp(64px, 9vw, 120px);
+  /* Vertical rhythm between sections. Two adjacent sections each contribute
+     this, so the space between their content is double the value. */
+  --flow:   clamp(48px, 6vw, 84px);
 }
 
 /* ---------- Reset ---------- */
@@ -283,7 +285,15 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
    top, which is what the differing cap heights need. */
 @supports (grid-template-rows: subgrid) {
   @media (min-width: 900px) {
-    .bilingual { grid-template-rows: repeat(5, auto); }
+    .bilingual {
+      grid-template-rows: repeat(5, auto);
+      /* `gap` was authored as the space BETWEEN the two columns. Subgrid makes
+         it apply between the five rows as well, adding 4 x 76px down the
+         section. Vertical rhythm comes from the elements' own margins, so the
+         row gap is zeroed and only the column gap is kept. */
+      row-gap: 0;
+      column-gap: clamp(38px, 6vw, 76px);
+    }
     .col-en, .col-ar {
       display: grid;
       grid-template-rows: subgrid;
