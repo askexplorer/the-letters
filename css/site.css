@@ -600,5 +600,5 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 /* Parallax on capable pointers only - iOS ignores background-attachment:fixed
    and jitters, which is why it is gated to fine pointers at >=900px. */
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) and (pointer: fine) {
-  .feature-band, .bulk-band, .cta-band { background-attachment: fixed; }
+  .bulk-band, .cta-band { background-attachment: fixed; }
 }
