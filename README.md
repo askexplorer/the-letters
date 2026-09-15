@@ -47,11 +47,17 @@ its artwork exists)* → specs → pre-order → bulk sales → footer.
 - **Parallax** is gated to fine pointers at ≥900px and motion-safe only; iOS
   ignores `background-attachment: fixed` and jitters.
 
-## ⚠️ Before going live
+## Note on crawling
 
-**Delete `robots.txt`.** It blocks all search engines and exists only so the
-public GitHub Pages preview is not indexed while the book is on pre-order.
-Leaving it in place would make the real page invisible to Google.
+There is deliberately no `robots.txt` here. One briefly existed to keep the
+public preview out of search, but it sat at `/the-letters/robots.txt` and
+crawlers only read the file from a **domain root** — a copy in a subfolder is
+ignored entirely, so it never had any effect.
+
+To actually keep a deployment out of search you need either a `robots.txt` at
+the domain root (`askexplorer.com/robots.txt`), which is outside this project,
+or `<meta name="robots" content="noindex">` in `index.html` — and that must be
+removed before production or the live page becomes invisible to Google.
 
 ## Outstanding
 
