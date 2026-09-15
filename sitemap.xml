@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://askexplorer.com/the-letters/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://askexplorer.com/the-letters/images/part2/share.jpg</image:loc>
+      <image:title>Lessons from Life: Part II – The Letters</image:title>
+      <image:caption>The Letters by HH Sheikh Mohammed bin Rashid Al Maktoum, Arabic and English hardback editions</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://askexplorer.com/the-letters/images/part2/cover-books.png</image:loc>
+      <image:title>The Letters – Arabic and English editions</image:title>
+    </image:image>
+  </url>
+</urlset>
