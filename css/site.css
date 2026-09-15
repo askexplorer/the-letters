@@ -204,9 +204,14 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
 .hero__art { position: absolute; display: block; }
 .hero__art img { display: block; width: 100%; height: auto; }
 
-/* Exact offsets from the source frame:
-     title  bbox (142,428)-(953,813)   figure bbox (964,85)-(1904,1306) */
-.hero__art--title  { left:  7.100%; top: 32.772%; width: 40.550%; }
+/* The figure keeps the offsets it had in the designer's 2000x1306 frame -
+   bbox (964,85)-(1904,1306) - since that artwork is unchanged.
+
+   The title was re-cut as a stacked lockup: aspect 1.226 where it used to be
+   2.106, so the old width would now have run it 50% down the stage. It is set
+   narrower and vertically centred in the space left of the figure instead.
+   Right edge lands at 39%, clear of the figure's 48.2%. */
+.hero__art--title  { left:  6.000%; top: 29.400%; width: 33.000%; }
 .hero__art--figure { left: 48.200%; top:  6.508%; width: 47.000%; }
 
 .hero::before {
@@ -386,7 +391,10 @@ h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.2; }
    is the hard limit; a larger export is needed to go bigger crisply, and on a
    2x screen these are already being resampled. */
 .book-split__col--books img { max-width: min(100%, clamp(420px, 46vw, 780px)); }
-.book-split__col--title img { max-width: min(100%, clamp(300px, 31vw, 578px)); }
+/* Capped so the two columns finish at a similar height: the books run
+   783x605, and the re-cut title is 578x767, which at its full width would
+   tower over them. 450px wide lands it at ~597px tall. */
+.book-split__col--title img { max-width: min(100%, clamp(240px, 24vw, 450px)); }
 
 /* Books on top, title beneath. */
 @media (max-width: 899.98px) {

@@ -40,7 +40,7 @@
 <!-- Hero art is the LCP. The sky is a CSS background, so without this the
      browser cannot start it until the stylesheet has parsed. -->
 <link rel="preload" href="images/part2/sky.webp" as="image" type="image/webp" />
-<link rel="preload" href="images/part2/figure.webp" as="image" type="image/webp" fetchpriority="high" />
+<link rel="preload" href="images/part2/figure.webp?v=3" as="image" type="image/webp" fetchpriority="high" />
 <link rel="stylesheet" href="css/site.css" />
 
 <script type="application/ld+json">
@@ -128,14 +128,14 @@
 
     <div class="hero__stage">
       <picture class="hero__art hero__art--title">
-        <source srcset="images/part2/title.webp?v=2" type="image/webp" />
-        <img src="images/part2/title.png?v=2" alt="" width="811" height="385"
+        <source srcset="images/part2/title.webp?v=3" type="image/webp" />
+        <img src="images/part2/title.png?v=3" alt="" width="811" height="665"
              decoding="async" fetchpriority="high" />
       </picture>
 
       <picture class="hero__art hero__art--figure">
-        <source srcset="images/part2/figure.webp" type="image/webp" />
-        <img src="images/part2/figure.png" alt="" width="940" height="1221"
+        <source srcset="images/part2/figure.webp?v=3" type="image/webp" />
+        <img src="images/part2/figure.png?v=3" alt="" width="940" height="1221"
              decoding="async" fetchpriority="high" />
       </picture>
     </div>
@@ -162,8 +162,8 @@
 
     <div class="book-split__col book-split__col--books" data-drift="-26">
       <picture>
-        <source srcset="images/part2/cover-books.webp?v=2" type="image/webp" />
-        <img src="images/part2/cover-books.png?v=2"
+        <source srcset="images/part2/cover-books.webp?v=3" type="image/webp" />
+        <img src="images/part2/cover-books.png?v=3"
              alt="The Letters shown in both editions: the English hardback and the Arabic hardback, علّمتني الحياة: الجزء الثاني – الرسائل"
              width="783" height="605"
              loading="lazy" decoding="async" />
@@ -172,10 +172,10 @@
 
     <div class="book-split__col book-split__col--title" data-drift="14">
       <picture>
-        <source srcset="images/part2/cover-title.webp?v=2" type="image/webp" />
-        <img src="images/part2/cover-title.png?v=2"
+        <source srcset="images/part2/cover-title.webp?v=3" type="image/webp" />
+        <img src="images/part2/cover-title.png?v=3"
              alt="Lessons from Life: Part II – The Letters, by Mohammed bin Rashid Al Maktoum"
-             width="578" height="575" loading="lazy" decoding="async" />
+             width="578" height="767" loading="lazy" decoding="async" />
       </picture>
     </div>
 
