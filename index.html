@@ -386,6 +386,10 @@
   // fetching when the band is near the viewport. These are decorative
   // backgrounds well below the fold - loading them eagerly put 146 KB on the
   // critical path for pixels nobody had scrolled to yet.
+  // Band artwork is fetched here rather than declared in CSS, so it needs its
+  // own cache marker: these files get replaced in place, and without this a
+  // browser holding the previous version never re-fetches. Bump on any change.
+  var BG_VERSION = '3';
   var bands = [].slice.call(document.querySelectorAll('[data-bg]'));
   var loadBand = function (el) {
     var base = el.getAttribute('data-bg');
@@ -394,12 +398,13 @@
       // real content keeps its solid colour and its content.
       if (!exts.length) return;
       var ext = exts[0], img = new Image();
+      var href = base + ext + '?v=' + BG_VERSION;
       img.onload = function () {
-        el.style.backgroundImage = 'url("' + base + ext + '")';
+        el.style.backgroundImage = 'url("' + href + '")';
         el.hidden = false;
       };
       img.onerror = function () { tryLoad(exts.slice(1)); };
-      img.src = base + ext;
+      img.src = href;
     };
     tryLoad(['.webp', '.jpg']);
   };
